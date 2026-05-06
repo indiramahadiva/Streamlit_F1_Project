@@ -1,0 +1,116 @@
+/* F1 — Design to Survive | Monza dashboard styling */
+
+/* ---- Hero (Home page) -------------------------------------------------- */
+.hero {
+  padding: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid #2a2a2a;
+  margin-bottom: 2rem;
+}
+
+.hero-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  color: #e10600;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.hero-title-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-title-wrap svg {
+  width: clamp(280px, 50vw, 540px);
+  height: auto;
+}
+
+.hero-title-wrap svg path {
+  fill: #ffffff;
+}
+
+.hero-years {
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #9a9a9a;
+  letter-spacing: 0.04em;
+  padding-bottom: 0.5rem;
+}
+
+.hero-tagline {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+  color: #b8b8b8;
+  letter-spacing: 0.05em;
+}
+
+.hero-track {
+  margin-top: 2rem;
+  max-width: 720px;
+}
+
+.hero-track img {
+  width: 100%;
+  height: auto;
+}
+
+.hero-track-caption {
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+  margin-top: 0.4rem;
+}
+
+/* ---- KPI cards --------------------------------------------------------- */
+[data-testid="stMetric"] {
+  background: #161616;
+  border: 1px solid #262626;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+
+[data-testid="stMetricLabel"] {
+  font-size: 0.7rem !important;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #888 !important;
+}
+
+[data-testid="stMetricValue"] {
+  font-size: 1.6rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+}
+
+/* ---- Tyre legend ------------------------------------------------------- */
+.tyre-legend {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0 1rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #1f1f1f;
+  border-bottom: 1px solid #1f1f1f;
+}
+
+.tyre-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.tyre-item svg {
+  width: 44px;
+  height: 44px;
+}
+
+.tyre-item span {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #e8e8e8;
+}

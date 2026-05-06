@@ -25,12 +25,18 @@ from f1_monza.components.visualizations import (
     starting_tyres_chart,
     tyre_strategy_chart,
 )
-from f1_monza.utils.constants import IMAGE_PATH
+from f1_monza.utils.constants import IMAGE_PATH, STYLE_PATH
+from f1_monza.utils.helpers import read_css
 
 
 def _encode_png(path: Path) -> str:
     """Base64-encode a PNG so it can be embedded directly in HTML."""
     return base64.b64encode(path.read_bytes()).decode()
+
+
+def _read_svg(path: Path) -> str:
+    """Read an SVG file as inline markup so it can be styled with CSS."""
+    return path.read_text(encoding="utf-8")
 
 
 SECTOR_COPY = {
@@ -82,7 +88,26 @@ def _track_panel(sector: str) -> None:
     )
 
 
+def _tyre_legend() -> None:
+    """Wheel badges with HARD/MEDIUM/SOFT labels."""
+    soft = _read_svg(IMAGE_PATH / "wheel_soft.svg")
+    medium = _read_svg(IMAGE_PATH / "wheel_medium.svg")
+    hard = _read_svg(IMAGE_PATH / "wheel_hard.svg")
+    st.markdown(
+        f"""
+        <div class="tyre-legend">
+            <div class="tyre-item">{hard}<span>HARD</span></div>
+            <div class="tyre-item">{medium}<span>MEDIUM</span></div>
+            <div class="tyre-item">{soft}<span>SOFT</span></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def dashboard_layout():
+    read_css(STYLE_PATH / "dashboard.css")
+
     st.title("Dashboard")
     st.caption("Italian Grand Prix · Monza")
 
@@ -137,6 +162,8 @@ def dashboard_layout():
     with right:
         with st.container(border=True):
             starting_tyres_chart(year)
+
+    _tyre_legend()
 
     st.divider()
 

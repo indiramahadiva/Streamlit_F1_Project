@@ -7,15 +7,20 @@ from f1_monza.utils.constants import DATA_PATH
 
 
 def read_textfile(path: Path) -> str:
+    """Read a plain text or markdown file."""
     with open(path, encoding="utf-8") as file:
         return file.read()
 
 
 def read_css(path: Path) -> None:
+    """Inject a CSS file into the Streamlit page."""
     css = read_textfile(path)
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 
+# -----------------------------------------------------------------------------
+# Data loaders
+# -----------------------------------------------------------------------------
 @st.cache_data
 def get_stints_df() -> pd.DataFrame:
     return pd.read_csv(DATA_PATH / "stints.csv")
