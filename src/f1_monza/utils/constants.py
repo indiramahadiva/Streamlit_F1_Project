@@ -1,4 +1,5 @@
 from pathlib import Path
+
 # parents[0] = utils/, parents[1] = f1_monza/
 ASSETS_PATH = Path(__file__).parents[1] / "assets"
 
@@ -19,3 +20,9 @@ COMPOUND_COLOURS = {
 
 # Years available for the Italian GP at Monza
 MONZA_YEARS = [2023, 2024, 2025]
+
+SCHEDULED_LAPS = {
+    2023: 53,
+    2024: 53,
+    2025: 53,
+}
