@@ -3,6 +3,12 @@ import pandas as pd
 
 from f1_monza.utils.helpers import get_drivers_df, get_laps_df
 from f1_monza.utils.helpers import get_weather_df
+from f1_monza.utils.helpers import (
+    get_drivers_df,
+    get_laps_df,
+    get_pit_df,
+    get_weather_df,
+)
 
 
 def laps_kpi(year: int) -> None:
@@ -74,3 +80,32 @@ def avg_lap_time_kpi(year: int) -> None:
     minutes = int(avg // 60)
     seconds = avg - minutes * 60
     st.metric(label="AVG LAP TIME", value=f"{minutes}:{seconds:06.3f}")
+
+
+def fastest_pit_kpi(year: int) -> None:
+    """Fastest pit lane time of the race."""
+    pit = get_pit_df()
+    pit = pit[pit["year"] == year]
+    valid = pit[pit["pit_duration"].notna() & (pit["pit_duration"] > 0)]
+    if valid.empty:
+        st.metric(label="FASTEST PIT LANE", value="—")
+        return
+    fastest = valid["pit_duration"].min()
+    st.metric(label="FASTEST PIT LANE", value=f"{fastest:.1f} s")
+
+
+def fastest_pit_driver_kpi(year: int) -> None:
+    """Driver and team with the fastest pit lane time."""
+    pit = get_pit_df()
+    pit = pit[pit["year"] == year]
+    valid = pit[pit["pit_duration"].notna() & (pit["pit_duration"] > 0)]
+    if valid.empty:
+        st.metric(label="FASTEST PIT DRIVER", value="—")
+        return
+    row = valid.loc[valid["pit_duration"].idxmin()]
+    st.metric(
+        label="FASTEST PIT DRIVER",
+        value=str(row["name_acronym"]),
+        delta=str(row["team_name"]),
+        delta_color="off",
+    )

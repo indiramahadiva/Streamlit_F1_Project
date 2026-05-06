@@ -11,3 +11,17 @@ def year_filter(key: str = "year_filter", default_index: int = 2) -> int:
         index=default_index,
         key=key,
     )
+
+
+from f1_monza.utils.helpers import get_stints_df
+
+
+def compound_filter(key: str = "compound_filter") -> list[str]:
+    """Multi-select of tyre compounds present in the data."""
+    compounds = sorted(get_stints_df()["compound"].dropna().unique().tolist())
+    return st.multiselect(
+        label="Compound",
+        options=compounds,
+        default=compounds,
+        key=key,
+    )

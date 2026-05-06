@@ -45,3 +45,55 @@ def tyre_strategy_chart(year: int) -> None:
     )
     fig.update_yaxes(categoryorder="category descending")
     st.plotly_chart(fig, width="stretch")
+
+
+def starting_tyres_chart(year: int) -> None:
+    """Donut chart: which compound did drivers start the race on?"""
+    stints = get_stints_df()
+    stints = stints[stints["year"] == year]
+
+    starting = stints[stints["stint_number"] == 1]
+    if starting.empty:
+        st.info(f"No starting-tyre data available for {year}.")
+        return
+
+    counts = starting["compound"].value_counts().reset_index()
+    counts.columns = ["compound", "drivers"]
+
+    fig = go.Figure(
+        data=[
+            go.Pie(
+                labels=counts["compound"],
+                values=counts["drivers"],
+                hole=0.55,
+                marker=dict(
+                    colors=[
+                        COMPOUND_COLOURS.get(c, "#888888") for c in counts["compound"]
+                    ],
+                    line=dict(color="#0D0D0D", width=2),
+                ),
+                textinfo="label+value",
+                textfont=dict(size=14, color="#0D0D0D"),
+                hovertemplate="<b>%{label}</b><br>%{value} drivers<extra></extra>",
+            )
+        ]
+    )
+    fig.update_layout(
+        height=420,
+        title=dict(text="Drivers' Starting Tyres", x=0),
+        showlegend=False,
+    )
+    st.plotly_chart(fig, width="stretch")
+
+
+def tyre_strategy_chart(year: int, compounds: list[str] | None = None) -> None:
+    stints = get_stints_df()
+    stints = stints[stints["year"] == year]
+
+    if compounds:
+        stints = stints[stints["compound"].isin(compounds)]
+
+    if stints.empty:
+        st.info(f"No stint data available for {year}.")
+        return
+    # ... rest of function stays identical
