@@ -25,3 +25,25 @@ def compound_filter(key: str = "compound_filter") -> list[str]:
         default=compounds,
         key=key,
     )
+
+
+def session_filter(key: str = "session_filter") -> str:
+    """Toggle between Qualifying and Race for the fastest lap chart."""
+    return st.radio(
+        label="Session",
+        options=["Qualifying", "Race"],
+        index=1,
+        horizontal=True,
+        key=key,
+    )
+
+
+def lap_metric_filter(key: str = "lap_metric_filter") -> str:
+    """Choose between full-lap and per-sector view."""
+    return st.radio(
+        label="View",
+        options=["Lap", "Sector 1", "Sector 2", "Sector 3"],
+        index=0,
+        horizontal=True,
+        key=key,
+    )

@@ -1,6 +1,11 @@
 import streamlit as st
 
-from f1_monza.components.filters import compound_filter, year_filter
+from f1_monza.components.filters import (
+    compound_filter,
+    lap_metric_filter,
+    session_filter,
+    year_filter,
+)
 from f1_monza.components.kpis import (
     avg_lap_time_kpi,
     avg_track_temp_kpi,
@@ -10,6 +15,7 @@ from f1_monza.components.kpis import (
     top_speed_kpi,
 )
 from f1_monza.components.visualizations import (
+    fastest_lap_gap_chart,
     starting_tyres_chart,
     tyre_strategy_chart,
 )
@@ -24,7 +30,7 @@ def dashboard_layout():
         year = year_filter()
         compounds = compound_filter()
 
-    # Top row: 6 KPIs
+    # KPI row
     kpi_cols = st.columns(6)
     with kpi_cols[0]:
         laps_kpi(year)
@@ -41,7 +47,19 @@ def dashboard_layout():
 
     st.divider()
 
-    # Middle row: tyre strategy (2/3) + donut (1/3)
+    # Fastest lap gap chart with toggles
+    st.markdown("### Fastest lap analysis")
+    toggle_cols = st.columns([1, 2])
+    with toggle_cols[0]:
+        session_type = session_filter()
+    with toggle_cols[1]:
+        metric = lap_metric_filter()
+    with st.container(border=True):
+        fastest_lap_gap_chart(year, session_type=session_type, metric=metric)
+
+    st.divider()
+
+    # Tyre strategy + starting tyres
     left, right = st.columns([2, 1])
     with left:
         with st.container(border=True):
