@@ -47,3 +47,17 @@ def lap_metric_filter(key: str = "lap_metric_filter") -> str:
         horizontal=True,
         key=key,
     )
+
+
+from f1_monza.utils.helpers import get_seasons_air_temp
+
+
+def air_temp_track_filter(key: str = "air_temp_track") -> str:
+    """Track filter for the air temperature chart."""
+    tracks = sorted(get_seasons_air_temp()["circuit_short_name"].unique().tolist())
+    return st.selectbox(
+        label="Track",
+        options=["All", *tracks],
+        index=0,
+        key=key,
+    )

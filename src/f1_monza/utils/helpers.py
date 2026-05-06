@@ -20,6 +20,7 @@ def read_css(path: Path) -> None:
 def get_stints_df() -> pd.DataFrame:
     return pd.read_csv(DATA_PATH / "stints.csv")
 
+
 @st.cache_data
 def get_pit_df() -> pd.DataFrame:
     df = pd.read_csv(DATA_PATH / "pit_with_compound.csv")
@@ -52,3 +53,17 @@ def get_weather_df() -> pd.DataFrame:
 @st.cache_data
 def get_sessions_df() -> pd.DataFrame:
     return pd.read_csv(DATA_PATH / "sessions_data.csv")
+
+
+@st.cache_data
+def get_seasons_air_temp() -> pd.DataFrame:
+    """Race-only mean air temperature per track per year — for the cross-track line chart."""
+    df = get_weather_df()
+    race = df[df["session_name"] == "Race"]
+    agg = (
+        race.groupby(["year", "circuit_short_name"])["air_temperature"]
+        .mean()
+        .round(1)
+        .reset_index()
+    )
+    return agg

@@ -1,6 +1,7 @@
 import streamlit as st
 
 from f1_monza.components.filters import (
+    air_temp_track_filter,
     compound_filter,
     lap_metric_filter,
     session_filter,
@@ -16,6 +17,7 @@ from f1_monza.components.kpis import (
 )
 from f1_monza.components.visualizations import (
     fastest_lap_gap_chart,
+    seasons_air_temp_chart,
     starting_tyres_chart,
     tyre_strategy_chart,
 )
@@ -29,6 +31,9 @@ def dashboard_layout():
         st.markdown("### Filters")
         year = year_filter()
         compounds = compound_filter()
+        st.markdown("---")
+        st.markdown("### Air-temp chart")
+        track = air_temp_track_filter()
 
     # KPI row
     kpi_cols = st.columns(6)
@@ -47,7 +52,7 @@ def dashboard_layout():
 
     st.divider()
 
-    # Fastest lap gap chart with toggles
+    # Fastest lap gap chart
     st.markdown("### Fastest lap analysis")
     toggle_cols = st.columns([1, 2])
     with toggle_cols[0]:
@@ -67,6 +72,12 @@ def dashboard_layout():
     with right:
         with st.container(border=True):
             starting_tyres_chart(year)
+
+    st.divider()
+
+    # Air temperature line chart at the bottom
+    with st.container(border=True):
+        seasons_air_temp_chart(track_filter=track)
 
 
 if __name__ == "__main__":

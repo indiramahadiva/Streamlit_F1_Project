@@ -189,3 +189,79 @@ def fastest_lap_gap_chart(
         xaxis_title="Gap to fastest (seconds)",
     )
     st.plotly_chart(fig, width="stretch")
+
+
+def seasons_air_temp_chart(track_filter: str = "All") -> None:
+    """Lollipop chart: avg race-day air temperature per track, one dot per year."""
+    import pandas as pd
+    from f1_monza.utils.helpers import get_seasons_air_temp
+
+    agg = get_seasons_air_temp()
+    if track_filter != "All":
+        agg = agg[agg["circuit_short_name"] == track_filter]
+    if agg.empty:
+        st.info("No weather data for the selected track.")
+        return
+
+    # Order tracks by 2025 air temperature so warmest sit on the left
+    if track_filter == "All":
+        order = (
+            agg[agg["year"] == 2025]
+            .sort_values("air_temperature", ascending=False)["circuit_short_name"]
+            .tolist()
+        )
+        leftover = [t for t in agg["circuit_short_name"].unique() if t not in order]
+        order.extend(leftover)
+        agg["circuit_short_name"] = pd.Categorical(
+            agg["circuit_short_name"], categories=order, ordered=True
+        )
+        agg = agg.sort_values(["circuit_short_name", "year"])
+
+    year_colours = {2023: "#3FA9F5", 2024: "#3FE0A1", 2025: "#E10600"}
+
+    fig = go.Figure()
+
+    # Vertical "lollipop sticks" — one thin grey line per track from y=0 up to the max temp
+    max_per_track = (
+        agg.groupby("circuit_short_name", observed=True)["air_temperature"]
+        .max()
+        .reset_index()
+    )
+    for _, row in max_per_track.iterrows():
+        fig.add_shape(
+            type="line",
+            x0=row["circuit_short_name"],
+            x1=row["circuit_short_name"],
+            y0=0,
+            y1=row["air_temperature"],
+            line=dict(color="#666", width=1),
+            layer="below",
+        )
+
+    # Coloured dots — one trace per year so the legend shows year colours
+    for year, group in agg.groupby("year"):
+        fig.add_trace(
+            go.Scatter(
+                x=group["circuit_short_name"],
+                y=group["air_temperature"],
+                mode="markers",
+                name=str(year),
+                marker=dict(
+                    color=year_colours.get(int(year), "#888"),
+                    size=12,
+                    line=dict(color="#0D0D0D", width=1),
+                ),
+                hovertemplate=(
+                    "<b>%{x}</b><br>" f"{int(year)}: %{{y:.1f}} °C<extra></extra>"
+                ),
+            )
+        )
+
+    fig.update_layout(
+        height=420,
+        title=dict(text="Seasons' Air Temperature (°C) at Tracks", x=0),
+        legend=dict(orientation="h", y=1.1, x=0, title=dict(text="year")),
+    )
+    fig.update_yaxes(ticksuffix=" °C", range=[0, None])
+    fig.update_xaxes(tickangle=-45)
+    st.plotly_chart(fig, width="stretch")
