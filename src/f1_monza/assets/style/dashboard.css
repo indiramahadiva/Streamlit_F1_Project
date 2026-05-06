@@ -93,3 +93,17 @@
   letter-spacing: 0.18em;
   color: #e8e8e8;
 }
+
+.hero-logo {
+  margin-bottom: 1.2rem;
+}
+
+.hero-logo svg {
+  height: 36px;
+  width: auto;
+}
+
+.hero-logo svg .cls-2,
+.hero-logo svg rect {
+  fill: #ffffff;
+}
