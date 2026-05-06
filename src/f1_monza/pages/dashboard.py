@@ -1,5 +1,6 @@
 import streamlit as st
 
+from f1_monza.components.kpis import laps_kpi
 from f1_monza.components.visualizations import tyre_strategy_chart
 
 
@@ -7,6 +8,7 @@ def dashboard_layout():
     st.title("Dashboard")
     st.caption("Italian Grand Prix · Monza")
 
+    laps_kpi(year=2025)
     tyre_strategy_chart(year=2025)
 
 
