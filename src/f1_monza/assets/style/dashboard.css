@@ -64,27 +64,6 @@
   margin-top: 0.4rem;
 }
 
-/* ---- KPI cards --------------------------------------------------------- */
-[data-testid="stMetric"] {
-  background: #161616;
-  border: 1px solid #262626;
-  border-radius: 8px;
-  padding: 0.85rem 1rem;
-}
-
-[data-testid="stMetricLabel"] {
-  font-size: 0.7rem !important;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #888 !important;
-}
-
-[data-testid="stMetricValue"] {
-  font-size: 1.6rem !important;
-  font-weight: 800 !important;
-  color: #ffffff !important;
-}
-
 /* ---- Tyre legend ------------------------------------------------------- */
 .tyre-legend {
   display: flex;

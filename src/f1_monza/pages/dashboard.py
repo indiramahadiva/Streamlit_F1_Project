@@ -30,12 +30,10 @@ from f1_monza.utils.helpers import read_css
 
 
 def _encode_png(path: Path) -> str:
-    """Base64-encode a PNG so it can be embedded directly in HTML."""
     return base64.b64encode(path.read_bytes()).decode()
 
 
 def _read_svg(path: Path) -> str:
-    """Read an SVG file as inline markup so it can be styled with CSS."""
     return path.read_text(encoding="utf-8")
 
 
@@ -89,7 +87,6 @@ def _track_panel(sector: str) -> None:
 
 
 def _tyre_legend() -> None:
-    """Wheel badges with HARD/MEDIUM/SOFT labels."""
     soft = _read_svg(IMAGE_PATH / "wheel_soft.svg")
     medium = _read_svg(IMAGE_PATH / "wheel_medium.svg")
     hard = _read_svg(IMAGE_PATH / "wheel_hard.svg")
@@ -120,7 +117,7 @@ def dashboard_layout():
         st.markdown("### Air-temp chart")
         track = air_temp_track_filter()
 
-    # Top section: track + KPIs side by side
+    # Top section: track + KPIs side by side (2x3 grid)
     track_col, kpi_col = st.columns([1, 2])
     with track_col:
         _track_panel(sector)

@@ -1,8 +1,6 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
-from f1_monza.utils.helpers import get_drivers_df, get_laps_df
-from f1_monza.utils.helpers import get_weather_df
 from f1_monza.utils.helpers import (
     get_drivers_df,
     get_laps_df,
@@ -11,15 +9,36 @@ from f1_monza.utils.helpers import (
 )
 
 
+def _render_kpi(label: str, value: str, sublabel: str | None = None) -> None:
+    """Custom KPI card matching the Power BI style — big white value, small grey label below."""
+    sublabel_html = (
+        f'<div style="font-size:0.7rem;color:#FF8000;font-weight:600;margin-top:0.2rem;">{sublabel}</div>'
+        if sublabel
+        else ""
+    )
+    st.markdown(
+        f"""
+        <div style="background:#161616;border:1px solid #262626;border-radius:8px;padding:1rem 1.2rem;height:110px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:#888;font-weight:600;">{label}</div>
+          <div>
+            <div style="font-size:1.8rem;font-weight:800;color:#FFFFFF;line-height:1;">{value}</div>
+            {sublabel_html}
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def laps_kpi(year: int) -> None:
     """Scheduled race distance for the Monza Italian GP."""
     from f1_monza.utils.constants import SCHEDULED_LAPS
 
     total_laps = SCHEDULED_LAPS.get(year)
     if total_laps is None:
-        st.metric(label="LAPS", value="—")
+        _render_kpi("LAPS", "—")
         return
-    st.metric(label="LAPS", value=total_laps)
+    _render_kpi("LAPS", str(total_laps))
 
 
 def avg_track_temp_kpi(year: int) -> None:
@@ -31,10 +50,10 @@ def avg_track_temp_kpi(year: int) -> None:
         & (weather["session_name"] == "Race")
     ]
     if df.empty or df["track_temperature"].isna().all():
-        st.metric(label="AVG TRACK TEMP", value="—")
+        _render_kpi("AVG TRACK TEMP", "—")
         return
     avg = df["track_temperature"].mean()
-    st.metric(label="AVG TRACK TEMP", value=f"{avg:.2f} °C")
+    _render_kpi("AVG TRACK TEMP", f"{avg:.2f} °C")
 
 
 def top_speed_kpi(year: int) -> None:
@@ -42,7 +61,7 @@ def top_speed_kpi(year: int) -> None:
     drivers = get_drivers_df()
     race = drivers[(drivers["year"] == year) & (drivers["session_name"] == "Race")]
     if race.empty:
-        st.metric(label="TOP SPEED", value="—")
+        _render_kpi("TOP SPEED", "—")
         return
 
     session_key = int(race["session_key"].iloc[0])
@@ -51,9 +70,9 @@ def top_speed_kpi(year: int) -> None:
 
     top_speed = race_laps["st_speed"].max()
     if pd.isna(top_speed):
-        st.metric(label="TOP SPEED", value="—")
+        _render_kpi("TOP SPEED", "—")
         return
-    st.metric(label="TOP SPEED", value=f"{int(top_speed)} km/h")
+    _render_kpi("TOP SPEED", f"{int(top_speed)} km/h")
 
 
 def avg_lap_time_kpi(year: int) -> None:
@@ -61,7 +80,7 @@ def avg_lap_time_kpi(year: int) -> None:
     drivers = get_drivers_df()
     race = drivers[(drivers["year"] == year) & (drivers["session_name"] == "Race")]
     if race.empty:
-        st.metric(label="AVG LAP TIME", value="—")
+        _render_kpi("AVG LAP TIME", "—")
         return
 
     session_key = int(race["session_key"].iloc[0])
@@ -73,13 +92,13 @@ def avg_lap_time_kpi(year: int) -> None:
         & (laps["lap_duration"] < 180)
     ]
     if race_laps.empty:
-        st.metric(label="AVG LAP TIME", value="—")
+        _render_kpi("AVG LAP TIME", "—")
         return
 
     avg = race_laps["lap_duration"].mean()
     minutes = int(avg // 60)
     seconds = avg - minutes * 60
-    st.metric(label="AVG LAP TIME", value=f"{minutes}:{seconds:06.3f}")
+    _render_kpi("AVG LAP TIME", f"{minutes}:{seconds:06.3f}")
 
 
 def fastest_pit_kpi(year: int) -> None:
@@ -88,10 +107,10 @@ def fastest_pit_kpi(year: int) -> None:
     pit = pit[pit["year"] == year]
     valid = pit[pit["pit_duration"].notna() & (pit["pit_duration"] > 0)]
     if valid.empty:
-        st.metric(label="FASTEST PIT LANE", value="—")
+        _render_kpi("FASTEST PIT LANE", "—")
         return
     fastest = valid["pit_duration"].min()
-    st.metric(label="FASTEST PIT LANE", value=f"{fastest:.1f} s")
+    _render_kpi("FASTEST PIT LANE", f"{fastest:.1f} s")
 
 
 def fastest_pit_driver_kpi(year: int) -> None:
@@ -100,12 +119,11 @@ def fastest_pit_driver_kpi(year: int) -> None:
     pit = pit[pit["year"] == year]
     valid = pit[pit["pit_duration"].notna() & (pit["pit_duration"] > 0)]
     if valid.empty:
-        st.metric(label="FASTEST PIT DRIVER", value="—")
+        _render_kpi("FASTEST PIT DRIVER", "—")
         return
     row = valid.loc[valid["pit_duration"].idxmin()]
-    st.metric(
-        label="FASTEST PIT DRIVER",
-        value=str(row["name_acronym"]),
-        delta=str(row["team_name"]),
-        delta_color="off",
+    _render_kpi(
+        "FASTEST PIT DRIVER",
+        str(row["name_acronym"]),
+        sublabel=str(row["team_name"]),
     )
