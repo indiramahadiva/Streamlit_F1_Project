@@ -61,3 +61,13 @@ def air_temp_track_filter(key: str = "air_temp_track") -> str:
         index=0,
         key=key,
     )
+
+
+def sector_filter(key: str = "sector_filter") -> str:
+    """Track sector selector. Default = full track."""
+    return st.selectbox(
+        label="Sector view",
+        options=["All sectors", "Sector 1", "Sector 2", "Sector 3"],
+        index=0,
+        key=key,
+    )
