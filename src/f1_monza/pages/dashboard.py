@@ -39,24 +39,16 @@ def _read_svg(path: Path) -> str:
 
 SECTOR_COPY = {
     "All sectors": (
-        "Monza is the fastest circuit on the F1 calendar — drivers spend roughly 80% of every "
-        "lap at full throttle. With long straights and only a handful of slow chicanes, the "
-        "cars run extreme low-downforce setups."
+        "Monza is the fastest track on the F1 calendar, nicknamed the 'Temple of Speed'. At 5.793 km with only 11 corners, drivers spend around 80% of the lap at full throttle. The low-downforce setup rewards slipstreaming and bravery into the chicanes."
     ),
     "Sector 1": (
-        "Sector 1 starts on the main straight — the longest flat-out stretch of the season — "
-        "and ends after Variante della Roggia. Drivers reach over 350 km/h before braking hard "
-        "for Variante del Rettifilo, the tight first chicane where overtakes happen on lap 1."
+        "Sector 1 starts on the main straight — the longest flat-out stretch of the season — and ends after Variante della Roggia. Drivers reach over 350 km/h before braking hard for Variante del Rettifilo, the tight first chicane where overtakes happen on lap 1."
     ),
     "Sector 2": (
-        "Sector 2 winds through the Lesmo curves and the long Curva del Serraglio. Cars stay "
-        "above 280 km/h for almost the entire sector, making aerodynamic balance and tyre "
-        "temperature management critical."
+        "Sector 2 runs through Curva di Lesmo 1 and 2, down to Ascari. Monza's most technical section: medium-to-high speed corners where aerodynamic balance separates the front-runners. Ascari demands precision — small errors cost big time."
     ),
     "Sector 3": (
-        "Sector 3 includes the second Ascari chicane and the iconic Parabolica — a long "
-        "right-hander leading onto the start-finish straight. A clean exit here directly "
-        "translates to top speed past the line."
+        "Sector 3 is defined by the legendary Parabolica — a long sweeping right-hander leading onto the main straight. Carrying speed through Parabolica is critical because lost momentum compounds across the kilometre-long straight."
     ),
 }
 
@@ -72,14 +64,10 @@ def _track_panel(sector: str) -> None:
     track_b64 = _encode_png(IMAGE_PATH / sector_to_file[sector])
     st.markdown(
         f"""
-        <div style="background:#0F0F0F;border:1px solid #262626;border-radius:8px;padding:1rem 1.2rem;">
-          <div style="font-size:0.72rem;letter-spacing:0.25em;color:#9A9A9A;text-transform:uppercase;margin-bottom:0.6rem;">
-            Autodromo Nazionale Monza
-          </div>
-          <img src="data:image/png;base64,{track_b64}" style="width:100%;height:auto;max-height:240px;object-fit:contain;margin-bottom:0.8rem;" />
-          <p style="font-size:0.85rem;color:#B8B8B8;line-height:1.5;margin:0;">
-            {SECTOR_COPY.get(sector, "")}
-          </p>
+        <div class="track-panel">
+          <div class="track-eyebrow">Autodromo Nazionale Monza</div>
+          <img class="track-img" src="data:image/png;base64,{track_b64}" alt="Monza track" />
+          <p class="track-copy">{SECTOR_COPY.get(sector, "")}</p>
         </div>
         """,
         unsafe_allow_html=True,

@@ -1,0 +1,1 @@
+When a driver pulls into the pit lane to swap tyres. The crew has the four wheels off and on in **2 to 3 seconds**, but the full pit-lane time is closer to **22-25 seconds** because of the speed limit on the way in and out.

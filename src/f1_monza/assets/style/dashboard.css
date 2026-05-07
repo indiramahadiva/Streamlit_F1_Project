@@ -7,6 +7,21 @@
   margin-bottom: 2rem;
 }
 
+.hero-logo {
+  margin-bottom: 1.2rem;
+}
+
+.hero-logo svg {
+  height: 36px;
+  width: auto;
+}
+
+.hero-logo svg path,
+.hero-logo svg rect,
+.hero-logo svg polygon {
+  fill: #ffffff;
+}
+
 .hero-eyebrow {
   font-size: 0.78rem;
   letter-spacing: 0.32em;
@@ -27,7 +42,9 @@
   height: auto;
 }
 
-.hero-title-wrap svg path {
+.hero-title-wrap svg,
+.hero-title-wrap svg path,
+.hero-title-wrap svg rect {
   fill: #ffffff;
 }
 
@@ -46,22 +63,113 @@
   letter-spacing: 0.05em;
 }
 
-.hero-track {
+/* ---- Section headers (red eyebrow text above each row) ---------------- */
+.section-header {
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  color: #e10600;
+  font-weight: 700;
   margin-top: 2rem;
-  max-width: 720px;
+  margin-bottom: 0.8rem;
 }
 
-.hero-track img {
-  width: 100%;
-  height: auto;
+/* ---- Info cards (project info + winners on home page) ---------------- */
+.info-card {
+  background: #161616;
+  border: 1px solid #262626;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.hero-track-caption {
+.info-card-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #888;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.info-card-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.info-card-sublabel {
+  font-size: 0.78rem;
+  color: #b8b8b8;
+  margin-top: 0.3rem;
+}
+
+/* ---- KPI cards on the dashboard --------------------------------------- */
+.kpi-card {
+  background: #161616;
+  border: 1px solid #262626;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kpi-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #888;
+  font-weight: 600;
+}
+
+.kpi-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.kpi-sublabel {
+  font-size: 0.7rem;
+  color: #ff8000;
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+/* ---- Track panel on the dashboard ------------------------------------ */
+.track-panel {
+  background: #0f0f0f;
+  border: 1px solid #262626;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+}
+
+.track-eyebrow {
   font-size: 0.72rem;
   letter-spacing: 0.25em;
-  text-transform: uppercase;
   color: #9a9a9a;
-  margin-top: 0.4rem;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.track-img {
+  width: 100%;
+  height: auto;
+  max-height: 240px;
+  object-fit: contain;
+  margin-bottom: 0.8rem;
+}
+
+.track-copy {
+  font-size: 0.85rem;
+  color: #b8b8b8;
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* ---- Tyre legend ------------------------------------------------------- */
@@ -92,18 +200,4 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   color: #e8e8e8;
-}
-
-.hero-logo {
-  margin-bottom: 1.2rem;
-}
-
-.hero-logo svg {
-  height: 36px;
-  width: auto;
-}
-
-.hero-logo svg .cls-2,
-.hero-logo svg rect {
-  fill: #ffffff;
 }

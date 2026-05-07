@@ -1,0 +1,1 @@
+Open **Dashboard** in the sidebar to see KPIs and charts for each year. Use the **Season** filter to switch between 2023, 2024, and 2025. Toggle **Sector view** to see different parts of the track highlighted. Browse **Raw Data** to see the underlying CSVs.

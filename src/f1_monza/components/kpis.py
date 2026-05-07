@@ -10,18 +10,14 @@ from f1_monza.utils.helpers import (
 
 
 def _render_kpi(label: str, value: str, sublabel: str | None = None) -> None:
-    """Custom KPI card matching the Power BI style — big white value, small grey label below."""
-    sublabel_html = (
-        f'<div style="font-size:0.7rem;color:#FF8000;font-weight:600;margin-top:0.2rem;">{sublabel}</div>'
-        if sublabel
-        else ""
-    )
+    """Custom KPI card matching the Power BI style."""
+    sublabel_html = f'<div class="kpi-sublabel">{sublabel}</div>' if sublabel else ""
     st.markdown(
         f"""
-        <div style="background:#161616;border:1px solid #262626;border-radius:8px;padding:1rem 1.2rem;height:110px;display:flex;flex-direction:column;justify-content:space-between;">
-          <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:#888;font-weight:600;">{label}</div>
+        <div class="kpi-card">
+          <div class="kpi-label">{label}</div>
           <div>
-            <div style="font-size:1.8rem;font-weight:800;color:#FFFFFF;line-height:1;">{value}</div>
+            <div class="kpi-value">{value}</div>
             {sublabel_html}
           </div>
         </div>

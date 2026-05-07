@@ -1,0 +1,1 @@
+A continuous run of laps on the same set of tyres. Drivers do **1 to 3 stints per race**, separated by pit stops. The chart on the dashboard shows each driver's stints as coloured segments — colour matches the compound used.
